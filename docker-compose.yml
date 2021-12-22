@@ -9,16 +9,6 @@ services:
     volumes:
       - redis:/data
   
-  sidekiq:
-    build: .
-    command: bundle exec sidekiq
-    volumes:
-      - .:/opt/app
-    environment:
-      - REDIS_URL_SIDEKIQ=redis://redis:6379/0
-    depends_on:
-      - redis
-
   web:
     build: .
     volumes: 
@@ -29,7 +19,7 @@ services:
     tty: true
     stdin_open: true
     depends_on:
-      - sidekiq
+      - redis
 
 volumes:
   redis:

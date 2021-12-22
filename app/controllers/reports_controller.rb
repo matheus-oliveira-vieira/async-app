@@ -1,12 +1,11 @@
 class ReportsController < ApplicationController
   def index
+    @reports = Dir["public/reports/*"]
   end
-
-  def new
-    @country = Country.new
-  end
-
+   
   def create
-    
+    ReportsWorker.perform_async
+    flash[:notice] = "Estamos processando seu relatório"
+    redirect_to '/reports'
+    end
   end
-end
